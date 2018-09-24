@@ -1,24 +1,23 @@
-JavaScript lodash Templates
----
+## JavaScript lodash Templates
 
 ## Objectives
 
-1. Explain how to use lodash templates
-2. Practice using lodash templates to organize JavaScript interactions
-3. Trigger changes in the DOM in response to user actions
+1.  Explain how to use lodash templates
+2.  Practice using lodash templates to organize JavaScript interactions
+3.  Trigger changes in the DOM in response to user actions
 
 ## Introduction
 
 Dynamically adding and manipulating chunks of the DOM based on data can be a tedious, error-prone activity when we try to manually create HTML strings out of data, like this:
 
 ```js
-var commentNode = document.getElementById("comments");
+let commentNode = document.getElementById("comments");
 commentNode.innerHTML = "<div class='some-class'>This is a comment and
 it's real long</div><p>" + someDynamicValue + "</p><p>" + someOtherValue
 + "</p>";
 ```
 
-The better way is to use a *template* that provides a way to use dynamically add data on a set HTML structure, preventing us from having to type out these monster strings of data and markup.
+The better way is to use a _template_ that provides a way to use dynamically add data on a set HTML structure, preventing us from having to type out these monster strings of data and markup.
 
 We could build out our own template for each section of our blog, creating a new function for each part, and that would work, but there are tools out there to make this task nice and easy for us.
 
@@ -29,7 +28,12 @@ We could build out our own template for each section of our blog, creating a new
 Let's look at the earlier example:
 
 ```js
-commentNode.innerHTML = "<div class='some-class'>This is a comment and it's real long</div><p>" + someDynamicValue + "</p><p>" + someOtherValue + "</p>"
+commentNode.innerHTML =
+  "<div class='some-class'>This is a comment and it's real long</div><p>" +
+  someDynamicValue +
+  '</p><p>' +
+  someOtherValue +
+  '</p>';
 ```
 
 The `<div class='some-class'>...` string is our template. It's not very pretty, but it's ours. We load data into the template by closing the string and concatenating variables then continuing the template string. If you're anything like me, you've forgotten to type at least one of the plus signs nearly every time you've done any long string concatenation, so, bare minimum, our templating tool should fix this problem.
@@ -58,8 +62,8 @@ So we have a basic form that will submit with a `postComment()` function. Let's 
 
 ```js
 function postComment() {
-  var commenter = document.getElementById("commenterName").value;
-  var comment = document.getElementById("commentText").value;
+  let commenter = document.getElementById('commenterName').value;
+  let comment = document.getElementById('commentText').value;
   //insert comment into "comments" div in this format:
   //<div class="comment"><p>comment</p><p>Posted By: <span class="commenter">commenter</span></p></div>
 }
@@ -69,18 +73,19 @@ We know the format of the template we want, but instead of adding it using strin
 
 **Top-tip:** By default, we access lodash functions through the underscore, which is a variable that holds the root object, like `_.template()`. This is similar to accessing jQuery functions via the `$` variable. This is because lodash was originally a fork of the [Underscore.js library](http://underscorejs.org/).
 
-We'll start by building a template string as we have in the past, but instead of concatenation, we'll be using *interpolation*, which is a way to replace text in strings using special delimiters.
+We'll start by building a template string as we have in the past, but instead of concatenation, we'll be using _interpolation_, which is a way to replace text in strings using special delimiters.
 
 In lodash, we can interpolate strings with the `<%= %>` delimiter, so let's try it out.
 
 ```js
 function postComment() {
-  var commenter = document.getElementById("commenterName").value;
-  var comment = document.getElementById("commentText").value;
+  let commenter = document.getElementById('commenterName').value;
+  let comment = document.getElementById('commentText').value;
   //insert comment into "comments" div in this format:
   //<div class="comment"><p>comment</p><p>Posted By: <span class="commenter">commenter</span></p></div>
 
-  var commentTemplate = '<div class="comment"><p><%= comment %></p><p>Posted By: <span class="commenter"><%= commenter %></span></p></div>';
+  let commentTemplate =
+    '<div class="comment"><p><%= comment %></p><p>Posted By: <span class="commenter"><%= commenter %></span></p></div>';
 }
 ```
 
@@ -90,15 +95,16 @@ The next step is to use the `template()` function of lodash to turn this templat
 
 ```js
 function postComment() {
-  var commenter = document.getElementById("commenterName").value;
-  var comment = document.getElementById("commentText").value;
+  let commenter = document.getElementById('commenterName').value;
+  let comment = document.getElementById('commentText').value;
   //insert comment into "comments" div in this format:
   //<div class="comment"><p>comment</p><p>Posted By: <span class="commenter">commenter</span></p></div>
 
   //create template string
-  var commentTemplate = '<div class="comment"><p><%= comment %></p><p>Posted By: <span class="commenter"><%= commenter %></span></p></div>';
+  let commentTemplate =
+    '<div class="comment"><p><%= comment %></p><p>Posted By: <span class="commenter"><%= commenter %></span></p></div>';
   //create template function
-  var templateFn = _.template(commentTemplate);
+  let templateFn = _.template(commentTemplate);
 }
 ```
 
@@ -112,20 +118,21 @@ Executing the function will return a string, which we can then append to our com
 
 ```js
 function postComment() {
-  var commenter = document.getElementById("commenterName").value;
-  var comment = document.getElementById("commentText").value;
+  let commenter = document.getElementById('commenterName').value;
+  let comment = document.getElementById('commentText').value;
   //insert comment into "comments" div in this format:
   //<div class="comment"><p>comment</p><p>Posted By: <span class="commenter">commenter</span></p></div>
 
   //create template string
-  var commentTemplate = '<div class="comment"><p><%= comment %></p><p>Posted By: <span class="commenter"><%= commenter %></span></p></div>';
+  let commentTemplate =
+    '<div class="comment"><p><%= comment %></p><p>Posted By: <span class="commenter"><%= commenter %></span></p></div>';
   //create template function
-  var templateFn = _.template(commentTemplate);
+  let templateFn = _.template(commentTemplate);
 
-  var commentsDiv = document.getElementById("comments");
+  let commentsDiv = document.getElementById('comments');
 
   //execute template function with JSON object for the interpolated values
-  var templateHTML = templateFn({ 'comment': comment, 'commenter': commenter });
+  let templateHTML = templateFn({ comment: comment, commenter: commenter });
 
   //append rather than replace!
   commentsDiv.innerHTML += templateHTML;
@@ -162,30 +169,30 @@ This time, we're going to put this in the bottom of our `index.html` like it was
 </body>
 ```
 
-Inside that `<script id="comment-template">` tag we just have *mostly* regular HTML! The only difference is, since we're inside a `script` tag, we also can use the interpolation delimiters from lodash to mark where our dynamic data is.
+Inside that `<script id="comment-template">` tag we just have _mostly_ regular HTML! The only difference is, since we're inside a `script` tag, we also can use the interpolation delimiters from lodash to mark where our dynamic data is.
 
 Okay, we've made a significant change here, so surely there's a lot of work require to wire this up, right?
 
 ```js
 // index.js
 function postComment() {
-  var commenter = document.getElementById("commenterName").value;
-  var comment = document.getElementById("commentText").value;
+  let commenter = document.getElementById('commenterName').value;
+  let comment = document.getElementById('commentText').value;
 
   //insert comment into "comments" div in this format:
   //<div class="comment"><p>comment</p><p>Posted By: <span class="commenter">commenter</span></p></div>
 
   //create template string - THIS IS THE ONLY LINE WE HAVE TO CHANGE
-  //var commentTemplate = '<div class="comment"><p><%= comment %></p><p>Posted By: <span class="commenter"><%= commenter %></span></p></div>';
-  var commentTemplate = document.getElementById("comment-template").innerHTML;
+  //let commentTemplate = '<div class="comment"><p><%= comment %></p><p>Posted By: <span class="commenter"><%= commenter %></span></p></div>';
+  let commentTemplate = document.getElementById('comment-template').innerHTML;
 
   //create template function
-  var templateFn = _.template(commentTemplate);
+  let templateFn = _.template(commentTemplate);
 
-  var commentsDiv = document.getElementById("comments");
+  let commentsDiv = document.getElementById('comments');
 
   //execute template function with JSON object for the interpolated values
-  var templateHTML = templateFn({ 'comment': comment, 'commenter': commenter });
+  let templateHTML = templateFn({ comment: comment, commenter: commenter });
 
   //append rather than replace!
   commentsDiv.innerHTML += templateHTML;
@@ -212,7 +219,7 @@ Lodash gives us what we need here as well, allowing us to use different delimite
 
 Let's say we don't want to allow our commenters to use HTML markup in their comments. Right now, if you tried posting a comment like `<p>hi</p><p>everyone</p><h1>this is my comment</h1>`, our form would let you. But of course, like everything else, trolls ruin this and find ways to break our blog style with their markup, so we want to change our comment field to not execute HTML tags.
 
-Luckily, it's as simple as changing the delimiter from *interpolate* (`<%= %>`) to *escape* (`<%- %>`). Let's try it:
+Luckily, it's as simple as changing the delimiter from _interpolate_ (`<%= %>`) to _escape_ (`<%- %>`). Let's try it:
 
 ```html
 <script id="comment-template" type="text/x-lodash-template">
@@ -232,7 +239,7 @@ A quick refresh and try to post that same comment again, and we'll see that our 
 
 #### Executing Code
 
-Let's say we want to execute some non-printing JavaScript code in our template. We can use the `<% %>`, or *eval* delimiter.
+Let's say we want to execute some non-printing JavaScript code in our template. We can use the `<% %>`, or _eval_ delimiter.
 
 For instance, we want to display the commenter's name, but if they accidentally left it blank, we want to display "Anonymous". We can use the eval delimiter to execute an `if...else` statement.
 
